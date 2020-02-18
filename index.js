@@ -4,6 +4,7 @@ const contentRouter = require('./controllers/content.js');
 const loginRouter = require('./controllers/login.js');
 const userRouter = require('./controllers/user.js');
 const database = require('./models/database.js');
+const { tokenExtractor } = require('./utils/middleware');
 
 
 const allowCORS = (req, res, next) => {
@@ -17,6 +18,7 @@ const allowCORS = (req, res, next) => {
 const app = express();
 app.use(allowCORS);
 app.use(bodyParser.json());
+app.use(tokenExtractor);
 app.use('/api/content', contentRouter);
 app.use('/api/login', loginRouter);
 app.use('/api/user', userRouter);
