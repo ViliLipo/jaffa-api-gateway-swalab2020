@@ -8,9 +8,11 @@ loginRouter.post('/', async (request, response) => {
   const { body } = request;
   const { username, password } = body;
   const [user] = await User.findAll({ where: { username } });
+  console.log(user);
   if (user) {
     const passwordCorrect = await bcrypt.compare(password, user.passwordHash);
     if (passwordCorrect) {
+      console.log('passwordmatch');
       const userForToken = {
         username,
         id: user.id,

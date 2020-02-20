@@ -22,6 +22,7 @@ const handleToken = (token) => {
     return false;
   }
   const decodedToken = jwt.verify(token, secret);
+  console.log(decodedToken);
   const { username, id } = decodedToken;
   if (!username || !id) {
     return false;
@@ -31,7 +32,8 @@ const handleToken = (token) => {
 
 contentRouter.post('/', async (request, response) => {
   try {
-    const { token, body } = request;
+    const { body } = request;
+    const { token } = body;
     const isTokenOk = handleToken(token);
     if (!isTokenOk) {
       return response.status(401).json({ error: 'token missing or invalid' });
