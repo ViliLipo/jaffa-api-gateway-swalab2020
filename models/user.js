@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const { hash } = require('bcrypt');
 const database = require('./database.js');
 
 
@@ -30,6 +31,10 @@ User.init({
   modelName: 'user',
 });
 
-User.sync({ force: true });
+User.sync({ force: true }).then(async () => {
+  const hashstr = await hash('password', 10);
+  User.create({ username: 'Testman', passwordHash: hashstr });
+  User.create({ username: 'Mutedman', passwordHash: hashstr });
+});
 
 module.exports = User;
